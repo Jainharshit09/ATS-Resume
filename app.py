@@ -5,16 +5,32 @@ import PyPDF2 as pdf
 from dotenv import load_dotenv
 import json
 from fpdf import FPDF
+import logging
 
-load_dotenv()  # Load environment variables
+# Load environment variables from .env file
+load_dotenv()
 
+# Configure Google Gemini API with the API Key
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Function to fetch Gemini response
+# Ensure API key is loaded
+if not os.getenv("GOOGLE_API_KEY"):
+    st.error("API Key is missing. Please set it in your environment variables.")
+
+# Logging for debugging
+logging.basicConfig(level=logging.DEBUG)
+
+# Function to fetch Gemini response using gemini-2.0 Flash model
 def get_gemini_response(input):
-    model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(input)
-    return response.text
+    try:
+        model = genai.GenerativeModel("gemini-2.0-flash")  # Use gemini-2.0 Flash model
+        response = model.generate_content(input)
+        logging.debug(f"API Response: {response}")
+        return response.text
+    except Exception as e:
+        logging.error(f"Error during API call: {e}")
+        st.error("Failed to fetch response from the Gemini API.")
+        return None
 
 # Function to extract text from uploaded PDF
 def input_pdf_text(uploaded_file):
@@ -27,18 +43,25 @@ def input_pdf_text(uploaded_file):
 
 # Prompt Template for ATS analysis
 input_prompt = """
-Hey Act Like a skilled or very experienced ATS (Application Tracking System)
-with a deep understanding of tech field, software engineering, data science, data analyst
-and big data engineer. Your task is to evaluate the resume based on the given job description.
-You must consider the job market is very competitive and you should provide 
-best assistance for improving the resumes. Assign the percentage matching based 
-on JD and
-the missing keywords with high accuracy.
-resume: {text}
-description: {jd}
+Act like a highly skilled ATS (Application Tracking System) expert specializing in analyzing resumes.
+Consider the job market to be highly competitive and evaluate the resume based on the given job description.
+Provide:
+- JD Match Percentage
+- Missing Keywords
+- Profile Summary
+- Changes Needed
 
-I want the response in one single string having the structure
-{{"JD Match": "%","MissingKeywords":[],"Profile Summary":"","ChangesNeeded":""}}
+Input Data:
+Resume: {text}
+Job Description: {jd}
+
+Expected Output Format:
+{
+    "JD Match": "% match",
+    "MissingKeywords": ["keywords"],
+    "Profile Summary": "summary",
+    "ChangesNeeded": "changes"
+}
 """
 
 # Custom CSS for styling
