@@ -1,0 +1,45 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e2f; /* Dark background */
+    color: #ffffff; /* White text color */
+}
+.stApp {
+    background-color: #1e1e2f; /* Dark background for the app */
+    color: #ffffff; /* White text color */
+}
+.stTextInput, .stTextArea, .stFileUploader {
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Add padding */
+    border: 1px solid #ccc; /* Light border color */
+    background-color: #2e2e4f; /* Slightly lighter background */
+    color: #ffffff; /* White text color */
+}
+.stButton button {
+    background-color: #00c9a7; /* Teal background */
+    color: #fff; /* White text */
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 15px; /* Padding around text */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    font-size: 16px; /* Text size */
+}
+.stButton button:hover {
+    background-color: #009b82; /* Darker teal on hover */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+.response-card {
+    background-color: #32324c; /* Dark card background */
+    padding: 15px; /* Padding inside the card */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between cards */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Card shadow */
+}
+h1 {
+    color: #00c9a7; /* Teal color for titles */
+    text-align: center; /* Center-align title */
+}
+.footer {
+    text-align: center; /* Center-align footer text */
+    font-size: 12px; /* Small font size */
+    margin-top: 20px; /* Space above footer */
+    color: #aaa; /* Light gray text */
+}
